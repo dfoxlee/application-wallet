@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: application_wallet_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: abcd1234!
+      MYSQL_DATABASE: application_wallet
+      MYSQL_USER: application_wallet_api
+      MYSQL_PASSWORD: abcd1234!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  mysql_data:

@@ -1,0 +1,25 @@
+.authTypeBtnsWrapper {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+   margin-top: 10px;
+}
+
+.formWrapper {
+   margin-top: 20px;
+}
+
+.inputWrapper {
+   display: flex;
+   flex-direction: column;
+}
+
+.input {
+   background: none;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   padding: 5px 10px;
+   color: var(--text-primary);
+   margin-top: 5px;
+}

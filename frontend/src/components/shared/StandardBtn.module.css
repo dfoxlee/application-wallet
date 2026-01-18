@@ -1,0 +1,133 @@
+.btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 5px;
+}
+
+.text {
+   font-size: 18px;
+   font-weight: 500;
+}
+
+.icon {
+   font-size: 24px;
+}
+
+.disabled {
+   pointer-events: none;
+   opacity: 0.5;
+}
+
+.filledInfo,
+.filledSuccess,
+.filledWarning,
+.filledError,
+.filledStandard,
+.outlinedInfo,
+.outlinedSuccess,
+.outlinedWarning,
+.outlinedError,
+.outlinedStandard {
+   padding: 5px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.filledInfo,
+.filledSuccess,
+.filledWarning,
+.filledError,
+.filledStandard {
+   border-style: none;
+}
+
+.outlinedInfo,
+.outlinedSuccess,
+.outlinedWarning,
+.outlinedError,
+.outlinedStandard {
+   background: none;
+}
+
+.filledInfo {
+   background-color: var(--info);
+   color: var(--secondary);
+}
+
+.filledSuccess {
+   background-color: var(--success);
+   color: var(--secondary);
+}
+
+.filledWarning {
+   background-color: var(--warning);
+   color: var(--secondary);
+}
+
+.filledError {
+   background-color: var(--error);
+   color: var(--secondary);
+}
+
+.filledStandard {
+   background-color: var(--primary);
+   color: var(--secondary);
+}
+
+.outlinedInfo {
+   border: 1px solid var(--info);
+   color: var(--info);
+}
+
+.outlinedSuccess {
+   border: 1px solid var(--success);
+   color: var(--success);
+}
+
+.outlinedWarning {
+   border: 1px solid var(--warning);
+   color: var(--warning);
+}
+
+.outlinedError {
+   border: 1px solid var(--error);
+   color: var(--error);
+}
+
+.outlinedStandard {
+   border: 1px solid var(--primary);
+   color: var(--primary);
+}
+
+.standardInfo,
+.standardSuccess,
+.standardWarning,
+.standardError,
+.standard {
+   background: none;
+   border-style: none;
+   cursor: pointer;
+}
+
+.standardInfo {
+   color: var(--info);
+}
+
+.standardSuccess {
+   color: var(--success);
+}
+
+.standardWarning {
+   color: var(--warning);
+}
+
+.standardError {
+   color: var(--error);
+}
+
+.standard {
+   background: none;
+   border-style: none;
+   color: var(--primary);
+}

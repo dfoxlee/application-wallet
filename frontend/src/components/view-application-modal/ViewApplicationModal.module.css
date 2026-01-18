@@ -1,0 +1,74 @@
+.inputWrapper {
+   display: grid;
+   grid-template-columns: auto;
+   gap: 5px;
+   margin-top: 10px;
+}
+
+.input {
+   padding: 8px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   font-size: 1rem;
+   background: none;
+   color: var(--neutral-grey-300);
+}
+
+.textarea {
+   padding: 8px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   font-size: 1rem;
+   background: none;
+   color: var(--neutral-grey-300);
+   resize: vertical;
+   min-height: 100px;
+}
+
+.table {
+   width: 100%;
+}
+
+.tableHeader,
+.tableData {
+   padding: 5px 10px;
+   font-size: 12px;
+   text-align: center;
+}
+
+.tableHeader {
+   font-weight: 600;
+   border-bottom: 2px solid var(--neutral-grey-300);
+   color: var(--neutral-grey-300);
+}
+
+.tableData {
+   border-bottom: 1px solid var(--neutral-grey-300);
+}
+
+.tableDateInput {
+   padding: 5px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   background: none;
+   color: var(--neutral-grey-300);
+   font-size: 12px;
+}
+
+.tableSelect {
+   padding: 5px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   background: none;
+   color: var(--neutral-grey-300);
+   font-size: 12px;
+}
+
+.tableInput {
+   padding: 5px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   background: none;
+   color: var(--neutral-grey-300);
+   font-size: 12px;
+}

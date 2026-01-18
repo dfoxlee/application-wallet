@@ -1,0 +1,82 @@
+.container {
+   border: 1px solid var(--primary);
+   padding: 10px 20px;
+   border-radius: 10px;
+   box-shadow: 0 0 5px 0 var(--primary);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+}
+
+.header {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+}
+
+.dragIcon {
+   color: white;
+}
+
+.title,
+.company {
+   cursor: grab;
+   text-align: center;
+}
+
+.title {
+   font-size: 18px;
+}
+
+.company {
+   font-size: 14px;
+   color: var(--neutral-grey-300);
+}
+
+.btnsWrapper {
+   display: flex;
+   justify-content: center;
+   gap: 10px;
+}
+
+.latestEvent {
+   margin-top: 15px;
+   font-size: 12px;
+   text-align: center;
+   color: var(--neutral-grey-300);
+}
+
+.description {
+   margin-top: 10px;
+   display: block;
+   font-size: 12px;
+   text-align: center;
+   color: var(--neutral-grey-300);
+}
+
+.showMoreBtn {
+   background: none;
+   border-style: none;
+   cursor: pointer;
+   color: var(--info);
+}
+
+.table {
+   width: 100%;
+   margin-top: 20px;
+}
+
+.tableHeader {
+   font-size: 10px;
+   color: var(--neutral-grey-300);
+   border-bottom: 1px solid var(--primary);
+   font-weight: 500;
+}
+
+.tableData {
+   font-size: 12px;
+   padding: 5px 10px;
+   border-bottom: 1px solid var(--neutral-grey-300);
+}
