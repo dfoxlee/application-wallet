@@ -1,0 +1,43 @@
+.tableHeader,
+.tableData {
+   padding: 5px 10px;
+   font-size: 12px;
+   text-align: center;
+}
+
+.tableHeader {
+   font-weight: 600;
+   border-bottom: 2px solid var(--neutral-grey-300);
+   color: var(--neutral-grey-300);
+}
+
+.tableData {
+   border-bottom: 1px solid var(--neutral-grey-300);
+}
+
+.tableDateInput {
+   padding: 5px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   background: none;
+   color: white;
+   font-size: 12px;
+}
+
+.tableSelect {
+   padding: 5px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   background: none;
+   color: white;
+   font-size: 12px;
+}
+
+.tableInput {
+   padding: 5px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+   background: none;
+   color: white;
+   font-size: 12px;
+}

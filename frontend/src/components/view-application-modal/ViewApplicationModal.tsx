@@ -2,13 +2,14 @@ import { useMemo, useState, type ChangeEvent } from "react";
 import { useApplicationStore } from "../../stores/applicationStore";
 import { useModalStore } from "../../stores/modalStores";
 import Modal from "../shared/Modal";
-import { applicationEvents } from "../../constants/refCodes";
 import StandardBtn from "../shared/StandardBtn";
 import { FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../stores/authStore";
 import { fetchUpdateApplication } from "../../services/applicationServices";
 import { formatDateForDb } from "../../utils/formatting";
+import EventsTable from "./components/EventsTable";
+import { fetchCreateEvent } from "../../services/eventServices";
 
 import styles from "./ViewApplicationModal.module.css";
 
@@ -48,66 +49,117 @@ export default function ViewApplicationModal() {
    };
 
    const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      // if (!viewApplication) return;
-
-      // const updatedApplication = {
-      //    ...viewApplication,
-      //    title: e.target.value,
-      // };
-
-      // const updatedApplications = applications.map((app) =>
-      //    app.applicationNumber === updatedApplication.applicationNumber
-      //       ? updatedApplication
-      //       : app,
-      // );
-
-      // setApplications(updatedApplications);
-
       setTitleInput(e.target.value);
    };
 
+   const handleTitleBlur = async () => {
+      if (!viewApplication) return;
+
+      if (viewApplication.title === titleInput) return;
+
+      const updatedApplication = {
+         ...viewApplication,
+         title: titleInput,
+      };
+
+      const updatedApplications = applications.map((app) =>
+         app.applicationNumber === updatedApplication.applicationNumber
+            ? updatedApplication
+            : app,
+      );
+
+      if (token) {
+         try {
+            await fetchUpdateApplication(token, updatedApplication);
+         } catch (error) {
+            console.error(error);
+
+            toast.error("Failed to update title. Please try again later.");
+
+            return;
+         }
+      }
+
+      setApplications(updatedApplications);
+   };
+
    const handleCompanyChange = (e: ChangeEvent<HTMLInputElement>) => {
-      // if (!viewApplication) return;
-
-      // const updatedApplication = {
-      //    ...viewApplication,
-      //    company: e.target.value,
-      // };
-
-      // const updatedApplications = applications.map((app) =>
-      //    app.applicationNumber === updatedApplication.applicationNumber
-      //       ? updatedApplication
-      //       : app,
-      // );
-
-      // setApplications(updatedApplications);
-
       setCompanyInput(e.target.value);
    };
 
+   const handleCompanyBlur = async () => {
+      if (!viewApplication) return;
+
+      if (viewApplication.company === companyInput) return;
+
+      const updatedApplication = {
+         ...viewApplication,
+         company: companyInput,
+      };
+
+      const updatedApplications = applications.map((app) =>
+         app.applicationNumber === updatedApplication.applicationNumber
+            ? updatedApplication
+            : app,
+      );
+
+      if (token) {
+         try {
+            await fetchUpdateApplication(token, updatedApplication);
+         } catch (error) {
+            console.error(error);
+
+            toast.error("Failed to update company. Please try again later.");
+
+            return;
+         }
+      }
+
+      setApplications(updatedApplications);
+   };
+
    const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      // if (!viewApplication) return;
-
-      // const updatedApplication = {
-      //    ...viewApplication,
-      //    description: e.target.value,
-      // };
-
-      // const updatedApplications = applications.map((app) =>
-      //    app.applicationNumber === updatedApplication.applicationNumber
-      //       ? updatedApplication
-      //       : app,
-      // );
-
-      // setApplications(updatedApplications);
-
       setDescriptionInput(e.target.value);
+   };
+
+   const handleDescriptionBlur = async () => {
+      if (!viewApplication) return;
+
+      if (viewApplication.description === descriptionInput) return;
+
+      const updatedApplication = {
+         ...viewApplication,
+         description: descriptionInput,
+      };
+
+      const updatedApplications = applications.map((app) =>
+         app.applicationNumber === updatedApplication.applicationNumber
+            ? updatedApplication
+            : app,
+      );
+
+      if (token) {
+         try {
+            await fetchUpdateApplication(token, updatedApplication);
+         } catch (error) {
+            console.error(error);
+
+            toast.error(
+               "Failed to update description. Please try again later.",
+            );
+
+            return;
+         }
+      }
+
+      setApplications(updatedApplications);
    };
 
    const handleAddEventClick = async () => {
       if (!viewApplication) return;
 
-      const newEvent = {
+      let newEvent = {
+         applicationNumber: viewApplication.applicationNumber,
          eventNumber:
             Math.max(
                0,
@@ -117,6 +169,20 @@ export default function ViewApplicationModal() {
          eventType: 1,
          notes: "",
       };
+
+      if (token) {
+         try {
+            const response = await fetchCreateEvent(token, newEvent);
+
+            newEvent = response.event;
+         } catch (error) {
+            console.error(error);
+
+            toast.error("Failed to add event. Please try again later.");
+
+            return;
+         }
+      }
 
       const updatedApplication = {
          ...viewApplication,
@@ -144,75 +210,6 @@ export default function ViewApplicationModal() {
       setApplications(updatedApplications);
    };
 
-   const handleEventDateChange = (eventNumber: number, newDate: string) => {
-      if (!viewApplication) return;
-
-      const updatedEvents = viewApplication.events.map((event) =>
-         event.eventNumber === eventNumber
-            ? { ...event, eventDate: newDate }
-            : event,
-      );
-
-      const updatedApplication = {
-         ...viewApplication,
-         events: updatedEvents,
-      };
-
-      const updatedApplications = applications.map((app) =>
-         app.applicationNumber === updatedApplication.applicationNumber
-            ? updatedApplication
-            : app,
-      );
-
-      setApplications(updatedApplications);
-   };
-
-   const handleEventTypeChange = (eventNumber: number, newType: number) => {
-      if (!viewApplication) return;
-
-      const updatedEvents = viewApplication.events.map((event) =>
-         event.eventNumber === eventNumber
-            ? { ...event, eventType: newType }
-            : event,
-      );
-
-      const updatedApplication = {
-         ...viewApplication,
-         events: updatedEvents,
-      };
-
-      const updatedApplications = applications.map((app) =>
-         app.applicationNumber === updatedApplication.applicationNumber
-            ? updatedApplication
-            : app,
-      );
-
-      setApplications(updatedApplications);
-   };
-
-   const handleEventNotesChange = (eventNumber: number, newNotes: string) => {
-      if (!viewApplication) return;
-
-      const updatedEvents = viewApplication.events.map((event) =>
-         event.eventNumber === eventNumber
-            ? { ...event, notes: newNotes }
-            : event,
-      );
-
-      const updatedApplication = {
-         ...viewApplication,
-         events: updatedEvents,
-      };
-
-      const updatedApplications = applications.map((app) =>
-         app.applicationNumber === updatedApplication.applicationNumber
-            ? updatedApplication
-            : app,
-      );
-
-      setApplications(updatedApplications);
-   };
-
    return (
       <Modal onClose={handleClose}>
          <div className={styles.inputWrapper}>
@@ -223,8 +220,9 @@ export default function ViewApplicationModal() {
                className={styles.input}
                type="text"
                id="title"
-               value={viewApplication?.title}
+               value={titleInput}
                onChange={handleTitleChange}
+               onBlur={handleTitleBlur}
             />
          </div>
          <div className={styles.inputWrapper}>
@@ -235,8 +233,9 @@ export default function ViewApplicationModal() {
                className={styles.input}
                type="text"
                id="company"
-               value={viewApplication?.company}
+               value={companyInput}
                onChange={handleCompanyChange}
+               onBlur={handleCompanyBlur}
             />
          </div>
          <div className={styles.textareaWrapper}>
@@ -246,8 +245,9 @@ export default function ViewApplicationModal() {
             <textarea
                className={styles.textarea}
                id="description"
-               value={viewApplication?.description}
+               value={descriptionInput}
                onChange={handleDescriptionChange}
+               onBlur={handleDescriptionBlur}
             />
          </div>
          <StandardBtn
@@ -257,71 +257,7 @@ export default function ViewApplicationModal() {
             outlined
             onClick={handleAddEventClick}
          />
-         <table className={styles.table}>
-            <thead>
-               <tr>
-                  <th className={styles.tableHeader}>Date</th>
-                  <th className={styles.tableHeader}>Event</th>
-                  <th className={styles.tableHeader}>Notes</th>
-               </tr>
-            </thead>
-            <tbody>
-               {viewApplication &&
-                  viewApplication.events.map((event) => (
-                     <tr key={event.eventNumber}>
-                        <td className={styles.tableData}>
-                           <input
-                              type="date"
-                              value={event.eventDate}
-                              className={styles.tableDateInput}
-                              onChange={(e) =>
-                                 handleEventDateChange(
-                                    event.eventNumber,
-                                    e.target.value,
-                                 )
-                              }
-                           />
-                        </td>
-                        <td className={styles.tableData}>
-                           <select
-                              name="event-type"
-                              id="event-type"
-                              className={styles.tableSelect}
-                              onChange={(e) =>
-                                 handleEventTypeChange(
-                                    event.eventNumber,
-                                    Number(e.target.value),
-                                 )
-                              }
-                              value={event.eventType}
-                           >
-                              {applicationEvents.map((ae) => (
-                                 <option
-                                    key={ae.refCodeNumber}
-                                    value={ae.refCodeNumber}
-                                 >
-                                    {ae.refCodeValue}
-                                 </option>
-                              ))}
-                           </select>
-                        </td>
-                        <td className={styles.tableData}>
-                           <input
-                              className={styles.tableInput}
-                              type="text"
-                              value={event.notes}
-                              onChange={(e) =>
-                                 handleEventNotesChange(
-                                    event.eventNumber,
-                                    e.target.value,
-                                 )
-                              }
-                           />
-                        </td>
-                     </tr>
-                  ))}
-            </tbody>
-         </table>
+         {viewApplication && <EventsTable events={viewApplication.events} />}
       </Modal>
    );
 }

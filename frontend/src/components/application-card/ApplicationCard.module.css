@@ -4,9 +4,10 @@
    border-radius: 10px;
    box-shadow: 0 0 5px 0 var(--primary);
    display: flex;
-   justify-content: center;
+   justify-content: space-between;
    align-items: center;
    gap: 10px;
+   width: 100%;
 }
 
 .header {
@@ -18,20 +19,17 @@
 
 .dragIcon {
    color: white;
+   min-width: 30px;
 }
 
 .title,
 .company {
    cursor: grab;
    text-align: center;
-}
-
-.title {
-   font-size: 18px;
+   font-size: 14px;
 }
 
 .company {
-   font-size: 14px;
    color: var(--neutral-grey-300);
 }
 

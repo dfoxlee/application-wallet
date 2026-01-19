@@ -1,6 +1,31 @@
 .container {
-   display: grid;
-   grid-template-columns: auto auto auto;
-   gap: 10px;
    padding: 0 20px;
+}
+
+.authMessage {
+   text-align: center;
+   grid-column: 1 / -1;
+   color: var(--neutral-grey-300);
+   font-size: 14px;
+}
+
+.noApplicationWrapper {
+   grid-column: 1 / -1;
+   margin-top: 50px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 30px;
+}
+
+.noApplicationsMessage {
+   text-align: center;
+   color: var(--neutral-grey-300);
+   font-size: 32px;
+}
+
+.applicationsGridWrapper {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   gap: 10px;
 }

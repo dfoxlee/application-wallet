@@ -53,5 +53,4 @@ INSERT INTO ref_code (ref_code_domain, ref_code_value) VALUES
 (1, 'Interviewing'),
 (1, 'Offer'),
 (1, 'Rejected'),
-(1, 'Accepted'),
-(1, 'Declined');
+(1, 'Accepted');

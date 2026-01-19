@@ -17,6 +17,7 @@ import { errorMiddleware } from "./middleware/error-middleware.js";
 // routes
 import authRouter from "./routes/auth-routes.js";
 import applicationRouter from "./routes/application-routes.js";
+import eventRouter from "./routes/event-routes.js";
 
 const __dirname = path.resolve();
 
@@ -29,17 +30,19 @@ const PORT = process.env.PORT || 4004;
 
 app.use(cors());
 app.use(express.json());
-app.use(limiter);
+// comment limiter for development
+// app.use(limiter);
 app.use(morgan("combined", { stream: accessLogStream }));
 
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/applications", authMiddleware, applicationRouter);
+app.use("/api/v1/events", authMiddleware, eventRouter);
 
+// test routes
 app.get("/test", (req, res) => {
    res.send("API is working!");
 });
-
 app.get("/test-error", (req, res, next) => {
    try {
       throw new Error("Test error");

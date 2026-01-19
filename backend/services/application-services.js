@@ -18,6 +18,25 @@ export const getApplicationsByUserNumber = async (userNumber) => {
    return results;
 };
 
+export const getApplicationByApplicationNumber = async (applicationNumber) => {
+   const query = `
+      SELECT
+         application_number as applicationNumber,
+         user_number as userNumber,
+         title,
+         company,
+         description
+      FROM application
+      WHERE application_number = ?;
+   `;
+
+   const values = [applicationNumber];
+
+   const [results] = await pool.execute(query, values);
+
+   return results[0];
+};
+
 export const createApplication = async ({
    userNumber,
    title,

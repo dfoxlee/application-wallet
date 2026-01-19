@@ -1,31 +1,29 @@
 import { toast } from "react-toastify";
 import { useApplicationStore } from "../stores/applicationStore";
 // import { APPLICATIONS } from "../constants/dummyData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../stores/authStore";
 import { fetchApplications } from "../services/applicationServices";
 
 export const useApplications = () => {
    // stores
-   const {
-      applications,
-      isApplicationsLoading,
-      setApplications,
-      setIsApplicationsLoading,
-   } = useApplicationStore();
+   const { applications, setApplications } = useApplicationStore();
    const token = useAuthStore((state) => state.token);
+
+   // states
+   const [isLoading, setIsLoading] = useState(false);
 
    // effect functions
    const getApplications = async () => {
       try {
-         setIsApplicationsLoading(true);
+         setIsLoading(true);
 
-         // simulate API call
+         // simulate API call for testing
          // await new Promise((resolve) => setTimeout(resolve, 2000));
          // setApplications(APPLICATIONS);
 
          if (!token) {
-            return setApplications([]);
+            return;
          }
 
          const response = await fetchApplications(token);
@@ -36,7 +34,7 @@ export const useApplications = () => {
 
          toast.error("Failed to fetch applications");
       } finally {
-         setIsApplicationsLoading(false);
+         setIsLoading(false);
       }
    };
 
@@ -47,8 +45,8 @@ export const useApplications = () => {
 
    return {
       applications,
-      isApplicationsLoading,
       setApplications,
       getApplications,
+      isLoading,
    };
 };

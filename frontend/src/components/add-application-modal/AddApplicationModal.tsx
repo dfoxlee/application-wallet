@@ -74,7 +74,7 @@ export default function AddApplicationModal() {
          return;
       }
 
-      const newApplication = {
+      let newApplication = {
          applicationNumber: applications.length + 1,
          title,
          company,
@@ -82,6 +82,7 @@ export default function AddApplicationModal() {
          events: [
             {
                eventNumber: 1,
+               applicationNumber: applications.length + 1,
                eventType: 1,
                eventDate: applicationDate,
                notes: "",
@@ -91,16 +92,22 @@ export default function AddApplicationModal() {
 
       if (token) {
          try {
-            await fetchCreateApplication(token, newApplication);
+            const response = await fetchCreateApplication(
+               token,
+               newApplication,
+            );
+
+            newApplication = response.application;
          } catch (error) {
             console.error(error);
 
-            toast.error("An error occurred while adding the application. Please try again later.");
+            toast.error(
+               "An error occurred while adding the application. Please try again later.",
+            );
 
             return;
          }
       }
-      
       setApplications([...applications, newApplication]);
 
       setTitle("");

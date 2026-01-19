@@ -1,25 +1,44 @@
 import { useDroppable } from "@dnd-kit/core";
-import type { ApplicationType } from "../../types/applicationTypes";
 import ApplicationCard from "../application-card/ApplicationCard";
 import Loading from "../loading/Loading";
 
 import styles from "./ApplicationColumn.module.css";
+import { useApplications } from "../../hooks/useApplications";
+import { useMemo } from "react";
+import { applicationEvents } from "../../constants/refCodes";
 
 interface ApplicationColumnProps {
    columnName: string;
-   applications: ApplicationType[];
-   isLoading: boolean;
 }
 
 export default function ApplicationColumn({
    columnName,
-   applications,
-   isLoading,
 }: ApplicationColumnProps) {
    // hooks
    const { setNodeRef } = useDroppable({
       id: columnName,
    });
+   const { applications, isLoading } = useApplications();
+
+   // memoized values
+   const filteredApplications = useMemo(() => {
+      const eventTypeNumber = applicationEvents.find(e => e.refCodeValue === columnName)?.refCodeNumber;
+
+      if (eventTypeNumber === undefined) return [];
+
+      const sortedApplicationEvents = applications.map((app) => ({
+         ...app,
+         events: app.events.sort(
+            (a, b) =>
+               new Date(b.eventDate).getTime() -
+               new Date(a.eventDate).getTime(),
+         ),
+      }));
+
+      return sortedApplicationEvents.filter(
+         (app) => app.events[0]?.eventType === eventTypeNumber,
+      );
+   }, [applications, columnName]);
 
    return (
       <div className={styles.container} ref={setNodeRef}>
@@ -29,7 +48,7 @@ export default function ApplicationColumn({
             {isLoading ? (
                <Loading />
             ) : (
-               applications.map((application) => (
+               filteredApplications.map((application) => (
                   <ApplicationCard
                      key={application.applicationNumber}
                      application={application}

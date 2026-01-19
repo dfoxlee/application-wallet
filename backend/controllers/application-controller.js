@@ -1,5 +1,6 @@
 import {
    getApplicationsByUserNumber,
+   getApplicationByApplicationNumber,
    createApplication,
    updateApplication,
    deleteApplication,
@@ -57,7 +58,16 @@ export const createApplicationController = async (req, res, next) => {
          }
       }
 
-      res.status(201).json({ message: "Application created successfully˝" });
+      const createdApplication =
+         await getApplicationByApplicationNumber(newApplicationId);
+
+      const createdEvents =
+         await getEventsByApplicationNumber(newApplicationId);
+
+      res.status(201).json({
+         message: "Application created successfully˝",
+         application: { ...createdApplication, events: createdEvents },
+      });
    } catch (error) {
       next(error);
    }

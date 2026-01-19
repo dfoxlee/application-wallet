@@ -4,6 +4,7 @@ export const getEventsByApplicationNumber = async (applicationNumber) => {
    const query = `
       SELECT
          event_number as eventNumber,
+         application_number as applicationNumber,
          event_type as eventType,
          DATE_FORMAT(event_date, '%Y-%m-%d') as eventDate,
          notes

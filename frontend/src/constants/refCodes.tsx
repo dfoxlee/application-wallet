@@ -29,11 +29,6 @@ export const applicationEvents = [
       refCodeValue: "Accepted",
       refCodeDomain: 1,
    },
-   {
-      refCodeNumber: 7,
-      refCodeValue: "Declined",
-      refCodeDomain: 1,
-   },
 ];
 
 export const refCodeDomains = [

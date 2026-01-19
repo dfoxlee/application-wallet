@@ -5,6 +5,7 @@ import { useModalStore } from "../../stores/modalStores";
 import styles from "./Header.module.css";
 import { useAuthStore } from "../../stores/authStore";
 import { useApplicationStore } from "../../stores/applicationStore";
+import { APPLICATIONS } from "../../constants/dummyData";
 
 export default function Header() {
    // stores
@@ -12,6 +13,7 @@ export default function Header() {
    const setAuthType = useModalStore((state) => state.setAuthType);
    const token = useAuthStore((state) => state.token);
    const setToken = useAuthStore((state) => state.setToken);
+   const applications = useApplicationStore((state) => state.applications);
    const setApplications = useApplicationStore(
       (state) => state.setApplications,
    );
@@ -33,6 +35,14 @@ export default function Header() {
       setAuthType("login");
    };
 
+   const handlePopulateDemoDataClick = () => {
+      setApplications(APPLICATIONS);
+   };
+
+   const handleClearApplicationsClick = () => {
+      setApplications([]);
+   };
+
    return (
       <div className={styles.container}>
          <div className={styles.wrapper}>
@@ -44,6 +54,22 @@ export default function Header() {
                   filled
                   onClick={handleAddApplicationClick}
                />
+               {!token && !applications.length && (
+                  <StandardBtn
+                     text="Populate Demo Data"
+                     onClick={handlePopulateDemoDataClick}
+                     outlined
+                     theme="info"
+                  />
+               )}
+               {!token && applications.length > 0 && (
+                  <StandardBtn
+                     text="Clear Applications"
+                     onClick={handleClearApplicationsClick}
+                     outlined
+                     theme="warning"
+                  />
+               )}
                <StandardBtn
                   text={token ? "Logout" : "Login or Sign Up"}
                   outlined

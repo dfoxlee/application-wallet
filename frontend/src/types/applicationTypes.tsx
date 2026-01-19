@@ -8,6 +8,7 @@ export interface ApplicationType {
 
 export interface EventType {
    eventNumber: number;
+   applicationNumber: number;
    eventType: number;
    eventDate: string;
    notes: string;
