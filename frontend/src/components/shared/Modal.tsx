@@ -11,8 +11,18 @@ export default function Modal({
    children: ReactNode;
    onClose?: () => void;
 }) {
+   // handlers
+   const handleBackgroundClick = () => {
+      if (onClose) {
+         onClose();
+      }
+   };
    return (
       <div className={styles.container}>
+         <button
+            className={styles.clickBackground}
+            onClick={handleBackgroundClick}
+         ></button>
          <div className={styles.wrapper}>
             <StandardBtn LeftIcon={FaTimes} onClick={onClose} />
             {children}

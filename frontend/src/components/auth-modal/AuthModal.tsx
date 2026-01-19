@@ -4,14 +4,20 @@ import StandardBtn from "../shared/StandardBtn";
 
 import styles from "./AuthModal.module.css";
 import { useState, type ChangeEvent, type FormEvent } from "react";
+import { fetchLogin, fetchSignup } from "../../services/authServices";
+import { toast } from "react-toastify";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function AuthModal() {
    // states
    const [emailInput, setEmailInput] = useState("");
+   const [passwordInput, setPasswordInput] = useState("");
+   const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
 
    // stores
    const authType = useModalStore((state) => state.authType);
    const setAuthType = useModalStore((state) => state.setAuthType);
+   const setToken = useAuthStore((state) => state.setToken);
 
    // handlers
    const closeAuthModal = () => {
@@ -26,10 +32,47 @@ export default function AuthModal() {
       setAuthType("login");
    };
 
-   const handleAuthSubmit = (e: FormEvent) => {
+   const handleAuthSubmit = async (e: FormEvent) => {
       e.preventDefault();
 
-      console.log("submit auth form");
+      try {
+         if (authType === "login") {
+            const response = await fetchLogin({
+               email: emailInput,
+               password: passwordInput,
+            });
+
+            localStorage.setItem("application-wallet", response.token);
+            setToken(response.token);
+
+            toast.success("Logged in successfully!");
+
+            setAuthType(null);
+         } else if (authType === "signup") {
+            if (passwordInput !== confirmPasswordInput) {
+               toast.error("Passwords do not match.");
+
+               return;
+            }
+            const response = await fetchSignup({
+               email: emailInput,
+               password: passwordInput,
+            });
+
+            localStorage.setItem("application-wallet", response.token);
+            setToken(response.token);
+
+            toast.success("Account created successfully!");
+
+            setAuthType(null);
+         }
+      } catch (error) {
+         console.error(error);
+
+         toast.error(
+            `An error occurred ${authType === "login" ? "logging in" : "signing up"}. Please try again later.`,
+         );
+      }
    };
 
    const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,9 +96,7 @@ export default function AuthModal() {
          <form className={styles.formWrapper} onSubmit={handleAuthSubmit}>
             <div className={styles.inputWrapper}>
                <label className={styles.label} htmlFor="email">
-                  {authType === "login"
-                     ? "Enter email to be sent a link."
-                     : "Enter email to create an account."}
+                  Email Address
                </label>
                <input
                   className={styles.input}
@@ -65,15 +106,39 @@ export default function AuthModal() {
                   onChange={handleEmailInputChange}
                />
             </div>
+            <div className={styles.inputWrapper}>
+               <label className={styles.label} htmlFor="password">
+                  Password
+               </label>
+               <input
+                  className={styles.input}
+                  type="password"
+                  id="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+               />
+            </div>
+            {authType === "signup" && (
+               <div className={styles.inputWrapper}>
+                  <label className={styles.label} htmlFor="confirm-password">
+                     Confirm Password
+                  </label>
+                  <input
+                     className={styles.input}
+                     type="password"
+                     id="confirm-password"
+                     value={confirmPasswordInput}
+                     onChange={(e) => setConfirmPasswordInput(e.target.value)}
+                  />
+               </div>
+            )}
             <StandardBtn
                style={{
-                  margin: "30px auto 0",
+                  margin: "20px auto 0",
                }}
                type="submit"
-               text={
-                  authType === "login" ? "Send Login Link" : "Create Account"
-               }
-               outlined={true}
+               text={authType === "login" ? "Login" : "Sign Up"}
+               filled={true}
             />
          </form>
       </Modal>

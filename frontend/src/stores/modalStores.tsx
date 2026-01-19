@@ -10,6 +10,7 @@ interface ModalStoreType {
    setModalTitle: (modalTitle: string | null) => void;
    setViewApplicationNumber: (applicationNumber: number | null) => void;
    setAuthType: (authType: "login" | "signup" | null) => void;
+   resetModal: () => void;
 }
 
 export const useModalStore = create<ModalStoreType>((set) => ({
@@ -25,4 +26,11 @@ export const useModalStore = create<ModalStoreType>((set) => ({
       set({ viewApplicationNumber: applicationNumber }),
 
    setAuthType: (authType) => set({ authType }),
+
+   resetModal: () =>
+      set({
+         modalTitle: null,
+         viewApplicationNumber: null,
+         authType: null,
+      }),
 }));

@@ -4,6 +4,16 @@
    display: grid;
    place-items: center;
    background-color: rgba(0, 0, 0, 0.8);
+   z-index: 10;
+}
+
+.clickBackground {
+   position: absolute;
+   inset: 0;
+   background: transparent;
+   border: none;
+   cursor: default;
+   z-index: 5;
 }
 
 .wrapper {
@@ -14,6 +24,7 @@
    max-width: 95vw;
    max-height: 90vh;
    overflow-y: auto;
+   z-index: 10;
 }
 
 .title {

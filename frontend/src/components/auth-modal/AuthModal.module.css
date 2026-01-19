@@ -8,11 +8,19 @@
 
 .formWrapper {
    margin-top: 20px;
+   display: grid;
+   grid-template-columns: auto;
+   gap: 10px;
 }
 
 .inputWrapper {
    display: flex;
    flex-direction: column;
+}
+
+.label {
+   font-size: 14px;
+   color: var(--neutral-grey-300);
 }
 
 .input {

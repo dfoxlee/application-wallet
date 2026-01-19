@@ -1,12 +1,16 @@
 CREATE DATABASE IF NOT EXISTS application_wallet;
 
+USE application_wallet;
+
+GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'%' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+
 CREATE TABLE IF NOT EXISTS user (
    user_number INT AUTO_INCREMENT PRIMARY KEY,
    email VARCHAR(255) NOT NULL UNIQUE,
-   confirmation_token VARCHAR(500),
+   hashed_password VARCHAR(500) NOT NULL,
    token VARCHAR(500),
    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   confirmation_date TIMESTAMP,
    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 

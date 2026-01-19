@@ -1,6 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import morgan from "morgan";
@@ -13,8 +15,6 @@ import { errorMiddleware } from "./middleware/error-middleware.js";
 
 // routes
 import authRouter from "./routes/auth-routes.js";
-
-dotenv.config();
 
 const __dirname = path.resolve();
 
