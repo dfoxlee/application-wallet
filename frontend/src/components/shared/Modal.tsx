@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import StandardBtn from "./StandardBtn";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaWindowMaximize, FaWindowMinimize } from "react-icons/fa";
 
 import styles from "./Modal.module.css";
 
@@ -11,20 +11,36 @@ export default function Modal({
    children: ReactNode;
    onClose?: () => void;
 }) {
+   // states
+   const [fillScreen, setFillScreen] = useState(false);
+
    // handlers
    const handleBackgroundClick = () => {
       if (onClose) {
          onClose();
       }
    };
+
+   const toggleFillScreen = () => {
+      setFillScreen((prev) => !prev);
+   };
+
    return (
       <div className={styles.container}>
          <button
             className={styles.clickBackground}
             onClick={handleBackgroundClick}
          ></button>
-         <div className={styles.wrapper}>
-            <StandardBtn LeftIcon={FaTimes} onClick={onClose} />
+         <div
+            className={fillScreen ? styles.wrapperFillScreen : styles.wrapper}
+         >
+            <header className={styles.headerWrapper}>
+               <StandardBtn LeftIcon={FaTimes} onClick={onClose} />
+               <StandardBtn
+                  LeftIcon={fillScreen ? FaWindowMinimize : FaWindowMaximize}
+                  onClick={toggleFillScreen}
+               />
+            </header>
             {children}
          </div>
       </div>

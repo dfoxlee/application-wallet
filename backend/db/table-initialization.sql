@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS application (
    title VARCHAR(255) NOT NULL,
    company VARCHAR(255),
    description TEXT,
-   CONSTRAINT FK_application_user_number FOREIGN KEY (user_number) REFERENCES user(user_number)
+   CONSTRAINT FK_application_user_number FOREIGN KEY (user_number) REFERENCES user(user_number) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS event (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS event (
    event_type INT NOT NULL,
    event_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    notes TEXT,
-   CONSTRAINT FK_event_application_number FOREIGN KEY (application_number) REFERENCES application(application_number)
+   CONSTRAINT FK_event_application_number FOREIGN KEY (application_number) REFERENCES application(application_number) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ref_code_domain (
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS ref_code (
    ref_code_number INT AUTO_INCREMENT PRIMARY KEY,
    ref_code_domain INT NOT NULL,
    ref_code_value VARCHAR(255) NOT NULL,
-   CONSTRAINT FK_ref_code_domain_number FOREIGN KEY (ref_code_domain) REFERENCES ref_code_domain(ref_code_domain_number)
+   CONSTRAINT FK_ref_code_ref_code_domain FOREIGN KEY (ref_code_domain) REFERENCES ref_code_domain(ref_code_domain_number) ON DELETE CASCADE
 );
 
 INSERT INTO ref_code_domain (ref_code_domain_name) VALUES

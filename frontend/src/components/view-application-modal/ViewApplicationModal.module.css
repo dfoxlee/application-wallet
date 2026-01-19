@@ -1,6 +1,7 @@
-.inputWrapper {
-   display: grid;
-   grid-template-columns: auto;
+.inputWrapper,
+.textareaWrapper {
+   display: flex;
+   flex-direction: column;
    gap: 5px;
    margin-top: 10px;
 }
@@ -11,7 +12,7 @@
    border-radius: 5px;
    font-size: 1rem;
    background: none;
-   color: var(--neutral-grey-300);
+   color: white;
 }
 
 .textarea {
@@ -20,13 +21,13 @@
    border-radius: 5px;
    font-size: 1rem;
    background: none;
-   color: var(--neutral-grey-300);
+   color: white;
    resize: vertical;
-   min-height: 100px;
 }
 
 .table {
    width: 100%;
+   margin-top: 10px;
 }
 
 .tableHeader,
@@ -51,7 +52,7 @@
    border: 1px solid var(--primary);
    border-radius: 5px;
    background: none;
-   color: var(--neutral-grey-300);
+   color: white;
    font-size: 12px;
 }
 
@@ -60,7 +61,7 @@
    border: 1px solid var(--primary);
    border-radius: 5px;
    background: none;
-   color: var(--neutral-grey-300);
+   color: white;
    font-size: 12px;
 }
 
@@ -69,6 +70,6 @@
    border: 1px solid var(--primary);
    border-radius: 5px;
    background: none;
-   color: var(--neutral-grey-300);
+   color: white;
    font-size: 12px;
 }

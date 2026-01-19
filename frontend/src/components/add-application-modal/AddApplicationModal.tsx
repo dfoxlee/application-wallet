@@ -6,12 +6,17 @@ import { useModalStore } from "../../stores/modalStores";
 import { useApplicationStore } from "../../stores/applicationStore";
 
 import styles from "./AddApplicationModal.module.css";
+import { fetchCreateApplication } from "../../services/applicationServices";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function AddApplicationModal() {
    // stores
    const setModalTitle = useModalStore((state) => state.setModalTitle);
-   const applications = useApplicationStore(state => state.applications);
-   const setApplications = useApplicationStore(state => state.setApplications);
+   const applications = useApplicationStore((state) => state.applications);
+   const setApplications = useApplicationStore(
+      (state) => state.setApplications,
+   );
+   const token = useAuthStore((state) => state.token);
 
    // states
    const [title, setTitle] = useState("");
@@ -54,7 +59,7 @@ export default function AddApplicationModal() {
       setModalTitle(null);
    };
 
-   const handleAddApplicationClick = () => {
+   const handleAddApplicationClick = async () => {
       if (!title || !company || !applicationDate) {
          const missingFields = [];
 
@@ -83,6 +88,19 @@ export default function AddApplicationModal() {
             },
          ],
       };
+
+      if (token) {
+         try {
+            await fetchCreateApplication(token, newApplication);
+         } catch (error) {
+            console.error(error);
+
+            toast.error("An error occurred while adding the application. Please try again later.");
+
+            return;
+         }
+      }
+      
       setApplications([...applications, newApplication]);
 
       setTitle("");

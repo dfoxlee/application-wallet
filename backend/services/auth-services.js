@@ -7,8 +7,8 @@ export const getUserByEmail = async (email) => {
          email,
          hashed_password as hashedPassword,
          token,
-         created_date as createdDate,
-         last_login as lastLogin
+         DATE_FORMAT(created_date, '%Y-%m-%d') as createdDate,
+         DATE_FORMAT(last_login, '%Y-%m-%d') as lastLogin
       FROM user 
       WHERE email = ?
    `;

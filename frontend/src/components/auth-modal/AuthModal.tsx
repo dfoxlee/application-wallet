@@ -1,12 +1,12 @@
 import Modal from "../shared/Modal";
 import { useModalStore } from "../../stores/modalStores";
 import StandardBtn from "../shared/StandardBtn";
-
-import styles from "./AuthModal.module.css";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { fetchLogin, fetchSignup } from "../../services/authServices";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../stores/authStore";
+
+import styles from "./AuthModal.module.css";
 
 export default function AuthModal() {
    // states
@@ -86,11 +86,13 @@ export default function AuthModal() {
                text="Login"
                filled={authType === "login"}
                onClick={handleLoginClick}
+               theme="info"
             />
             <StandardBtn
                text="Sign Up"
                filled={authType === "signup"}
                onClick={handleSignUpClick}
+               theme="info"
             />
          </div>
          <form className={styles.formWrapper} onSubmit={handleAuthSubmit}>

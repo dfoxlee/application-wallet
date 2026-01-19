@@ -3,11 +3,18 @@ import StandardBtn from "../shared/StandardBtn";
 import { useModalStore } from "../../stores/modalStores";
 
 import styles from "./Header.module.css";
+import { useAuthStore } from "../../stores/authStore";
+import { useApplicationStore } from "../../stores/applicationStore";
 
 export default function Header() {
    // stores
    const setModalTitle = useModalStore((state) => state.setModalTitle);
    const setAuthType = useModalStore((state) => state.setAuthType);
+   const token = useAuthStore((state) => state.token);
+   const setToken = useAuthStore((state) => state.setToken);
+   const setApplications = useApplicationStore(
+      (state) => state.setApplications,
+   );
 
    // handlers
    const handleAddApplicationClick = () => {
@@ -15,6 +22,14 @@ export default function Header() {
    };
 
    const handleAuthClick = () => {
+      // logout user
+      if (token) {
+         setToken(null);
+         localStorage.removeItem("application-wallet");
+         setApplications([]);
+         return;
+      }
+
       setAuthType("login");
    };
 
@@ -30,7 +45,7 @@ export default function Header() {
                   onClick={handleAddApplicationClick}
                />
                <StandardBtn
-                  text="Login or Sign Up"
+                  text={token ? "Logout" : "Login or Sign Up"}
                   outlined
                   onClick={handleAuthClick}
                />

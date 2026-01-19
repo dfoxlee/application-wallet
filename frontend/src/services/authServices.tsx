@@ -1,3 +1,5 @@
+const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8008/api/v1";
+
 export const fetchLogin = async ({
    email,
    password,
@@ -5,7 +7,7 @@ export const fetchLogin = async ({
    email: string;
    password: string;
 }) => {
-   const response = await fetch("http://localhost:8008/api/v1/auth/login", {
+   const response = await fetch(`${baseUrl}/auth/login`, {
       method: "POST",
       headers: {
          "Content-Type": "application/json",
@@ -27,7 +29,7 @@ export const fetchSignup = async ({
    email: string;
    password: string;
 }) => {
-   const response = await fetch("http://localhost:8008/api/v1/auth/signup", {
+   const response = await fetch(`${baseUrl}/auth/signup`, {
       method: "POST",
       headers: {
          "Content-Type": "application/json",
@@ -44,7 +46,7 @@ export const fetchSignup = async ({
 
 export const fetchValidateToken = async (token: string) => {
    const response = await fetch(
-      "http://localhost:8008/api/v1/auth/validate-token",
+      `${baseUrl}/auth/validate-token`,
       {
          method: "POST",
          headers: {

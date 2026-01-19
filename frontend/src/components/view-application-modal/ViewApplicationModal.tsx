@@ -1,12 +1,16 @@
-import { use, useMemo, useState, type ChangeEvent } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 import { useApplicationStore } from "../../stores/applicationStore";
 import { useModalStore } from "../../stores/modalStores";
 import Modal from "../shared/Modal";
-
-import styles from "./ViewApplicationModal.module.css";
 import { applicationEvents } from "../../constants/refCodes";
 import StandardBtn from "../shared/StandardBtn";
 import { FaPlus } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { useAuthStore } from "../../stores/authStore";
+import { fetchUpdateApplication } from "../../services/applicationServices";
+import { formatDateForDb } from "../../utils/formatting";
+
+import styles from "./ViewApplicationModal.module.css";
 
 export default function ViewApplicationModal() {
    // stores
@@ -20,6 +24,7 @@ export default function ViewApplicationModal() {
    const setViewApplicationNumber = useModalStore(
       (state) => state.setViewApplicationNumber,
    );
+   const token = useAuthStore((state) => state.token);
 
    // memoized values
    const viewApplication = useMemo(() => {
@@ -28,63 +33,78 @@ export default function ViewApplicationModal() {
       );
    }, [applications, viewApplicationNumber]);
 
+   // states
+   const [titleInput, setTitleInput] = useState(viewApplication?.title || "");
+   const [companyInput, setCompanyInput] = useState(
+      viewApplication?.company || "",
+   );
+   const [descriptionInput, setDescriptionInput] = useState(
+      viewApplication?.description || "",
+   );
+
    // handlers
    const handleClose = () => {
       setViewApplicationNumber(null);
    };
 
    const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      if (!viewApplication) return;
+      // if (!viewApplication) return;
 
-      const updatedApplication = {
-         ...viewApplication,
-         title: e.target.value,
-      };
+      // const updatedApplication = {
+      //    ...viewApplication,
+      //    title: e.target.value,
+      // };
 
-      const updatedApplications = applications.map((app) =>
-         app.applicationNumber === updatedApplication.applicationNumber
-            ? updatedApplication
-            : app,
-      );
+      // const updatedApplications = applications.map((app) =>
+      //    app.applicationNumber === updatedApplication.applicationNumber
+      //       ? updatedApplication
+      //       : app,
+      // );
 
-      setApplications(updatedApplications);
+      // setApplications(updatedApplications);
+
+      setTitleInput(e.target.value);
    };
 
    const handleCompanyChange = (e: ChangeEvent<HTMLInputElement>) => {
-      if (!viewApplication) return;
+      // if (!viewApplication) return;
 
-      const updatedApplication = {
-         ...viewApplication,
-         company: e.target.value,
-      };
+      // const updatedApplication = {
+      //    ...viewApplication,
+      //    company: e.target.value,
+      // };
 
-      const updatedApplications = applications.map((app) =>
-         app.applicationNumber === updatedApplication.applicationNumber
-            ? updatedApplication
-            : app,
-      );
+      // const updatedApplications = applications.map((app) =>
+      //    app.applicationNumber === updatedApplication.applicationNumber
+      //       ? updatedApplication
+      //       : app,
+      // );
 
-      setApplications(updatedApplications);
+      // setApplications(updatedApplications);
+
+      setCompanyInput(e.target.value);
    };
 
    const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      if (!viewApplication) return;
+      // if (!viewApplication) return;
 
-      const updatedApplication = {
-         ...viewApplication,
-         description: e.target.value,
-      };
+      // const updatedApplication = {
+      //    ...viewApplication,
+      //    description: e.target.value,
+      // };
 
-      const updatedApplications = applications.map((app) =>
-         app.applicationNumber === updatedApplication.applicationNumber
-            ? updatedApplication
-            : app,
-      );
+      // const updatedApplications = applications.map((app) =>
+      //    app.applicationNumber === updatedApplication.applicationNumber
+      //       ? updatedApplication
+      //       : app,
+      // );
 
-      setApplications(updatedApplications);
+      // setApplications(updatedApplications);
+
+      setDescriptionInput(e.target.value);
    };
 
-   const handleAddEventClick = () => {
+   const handleAddEventClick = async () => {
       if (!viewApplication) return;
 
       const newEvent = {
@@ -93,7 +113,7 @@ export default function ViewApplicationModal() {
                0,
                ...viewApplication.events.map((event) => event.eventNumber),
             ) + 1,
-         eventDate: new Date().toISOString().split("T")[0],
+         eventDate: formatDateForDb(new Date()),
          eventType: 1,
          notes: "",
       };
@@ -108,6 +128,18 @@ export default function ViewApplicationModal() {
             ? updatedApplication
             : app,
       );
+
+      if (token) {
+         try {
+            await fetchUpdateApplication(token, updatedApplication);
+         } catch (error) {
+            console.error(error);
+
+            toast.error("Failed to add event. Please try again later.");
+
+            return;
+         }
+      }
 
       setApplications(updatedApplications);
    };
@@ -207,7 +239,7 @@ export default function ViewApplicationModal() {
                onChange={handleCompanyChange}
             />
          </div>
-         <div className={styles.inputWrapper}>
+         <div className={styles.textareaWrapper}>
             <label className={styles.label} htmlFor="description">
                Description
             </label>
@@ -267,9 +299,6 @@ export default function ViewApplicationModal() {
                                  <option
                                     key={ae.refCodeNumber}
                                     value={ae.refCodeNumber}
-                                    selected={
-                                       ae.refCodeNumber === event.eventType
-                                    }
                                  >
                                     {ae.refCodeValue}
                                  </option>
