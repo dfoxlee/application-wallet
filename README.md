@@ -19,7 +19,7 @@ A full-stack application tracking system built with React, TypeScript, and Expre
 - **Vite** - Build tool and dev server
 - **Zustand** - State management
 - **@dnd-kit/core** - Drag and drop functionality
-- **React Toastify** - Toast notifications
+- **React Toastify** - Toast Notifications
 - **React Icons** - Icon library
 
 ### Backend
