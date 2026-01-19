@@ -1,17 +1,15 @@
-
 services:
-  db:
-    image: mysql:latest
-    restart: always
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
     environment:
-      MYSQL_ROOT_PASSWORD: abcd1234!
-      MYSQL_DATABASE: application_wallet
-      MYSQL_USER: application_wallet_api
-      MYSQL_PASSWORD: abcd1234!
-    ports:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes: 
+      - /mnt/mysql-data:/var/lib/mysql
+    ports: 
       - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-volumes:
-  mysql_data:
+    restart: unless-stopped
+    env_file: "production.env"

@@ -5,13 +5,13 @@ import { Bounce, ToastContainer } from "react-toastify";
 import { useModalStore } from "./stores/modalStores";
 import ViewApplicationModal from "./components/view-application-modal/ViewApplicationModal";
 import AuthModal from "./components/auth-modal/AuthModal";
-import { useAuthCheck } from "./hooks/useAuthCheck";
+// import { useAuthCheck } from "./hooks/useAuthCheck";
 
 import styles from "./App.module.css";
 
 export default function App() {
    // hooks
-   const { token } = useAuthCheck();
+   // const { token } = useAuthCheck();
 
    // stores
    const modalTitle = useModalStore((state) => state.modalTitle);

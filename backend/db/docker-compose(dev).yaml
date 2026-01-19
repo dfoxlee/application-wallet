@@ -1,0 +1,17 @@
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: abcd1234!
+      MYSQL_DATABASE: application_wallet
+      MYSQL_USER: application_wallet_api
+      MYSQL_PASSWORD: abcd1234!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
